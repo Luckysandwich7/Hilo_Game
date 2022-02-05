@@ -17,37 +17,46 @@ class Card:
 
 class Director:
 
+    #random.seed(1)
+    # [3 10, 13 13, 2 5, 2 8, 13 8, 8 11, 7 11, 4 2, 8 1]
+
     def __init__(self):
         self.score = 400
         self.user_guess = ""
 
     def start_game(self):
-        while self.score >= 0:
+        replay = "y"
+        while self.score > 0 and replay == "y":
             card = self.get_inputs()
             self.do_updates(card)
             self.do_outputs()
-            print('Do you want to play again? (y/n): ')
+            if self.score <= 0:
+                print("You Lose, Game Over")
+            else:
+                replay = input('Do you want to play again? (y/n): ')
+                while replay not in ("y", "n"):
+                    replay = input('Do you want to play again? (y/n): ')    
             #if elif statement to continue or end game.
 
     def get_inputs(self):
         current_card = Card()
-        print("This card is: {}".format(str(current_card.value)))
-        #print("This card is:  {current_card.value} ")
+        print(f"This card is: {current_card.value}")
         self.user_guess = input("Higher or lower? [h/l]: ")
         return current_card
 
     def do_updates(self, current_card):
         card = Card()
-        print('Next card is: {}'.format(str(current_card.value)):)
+        print(f"Next card is: {card.value}")
+        #print(f"{current_card.value}")
         if current_card.value > card.value and self.user_guess == "h":
-            self.score += 100
-        else:
             self.score -= 75
+        elif current_card.value < card.value and self.user_guess == "l":
+            self.score -= 75
+        else:
+            self.score += 100
 
     def do_outputs(self):
         print(f"Your score is: {self.score}")
-
-    #Need to create if score = 0 to end game.
 
 
 def main():
